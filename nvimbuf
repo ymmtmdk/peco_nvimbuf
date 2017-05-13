@@ -1,0 +1,13 @@
+#! /usr/local/bin/ruby
+
+require "neovim"
+
+cli = Neovim.attach_unix(ENV['NVIM_LISTEN_ADDRESS'])
+buf = cli.get_current_buffer
+lines = buf.lines.map{|l| l}
+size = ARGV[0] ? ARGV[0].sub(/-/, "").to_i : 100
+lines = lines.last(size).map{|l| [l, l.split(/\s/)] }.flatten.sort.uniq
+lines.each do |l|
+  puts l
+end
+
